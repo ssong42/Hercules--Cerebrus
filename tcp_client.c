@@ -6,17 +6,30 @@
 /*   By: ssong <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/02 15:45:14 by ssong             #+#    #+#             */
-/*   Updated: 2018/03/02 18:06:57 by ssong            ###   ########.fr       */
+/*   Updated: 2018/03/02 18:14:05 by ssong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
-#include <stdio.h>
 #include <stdlib.h>
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
 // netinet contains a structure so we know the address we want to connect to
+
+void	ft_putchar(char c)
+{
+	write(1, &c, 1);
+}
+
+void	ft_putstr(char *str)
+{
+	while (*str)
+	{
+		ft_putchar(*str);
+		str++;
+	}
+}
 
 int main()
 {
@@ -37,7 +50,7 @@ int main()
 	int connect_status = connect(network_socket, (struct sockaddr *) &server_address, sizeof(server_address));
 	// connect returns integer whether the connection occured
 	if (connect_status == -1)
-		printf("There was an error in connection to remote socket\n");
+		ft_putstr("There was an error in connection to remote socket\n");
 
 	// recieve data from the server
 	char server_response[256];
@@ -47,7 +60,8 @@ int main()
 	recv(network_socket, &server_response, sizeof(server_response), 0);
 
 	// print out the server's response
-	printf("%s\n", server_response);
+	ft_putstr(server_response);
+	ft_putchar('\n');
 	close(network_socket);
 	return (0);
 }

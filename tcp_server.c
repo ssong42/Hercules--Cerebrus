@@ -6,16 +6,29 @@
 /*   By: ssong <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/02 16:34:34 by ssong             #+#    #+#             */
-/*   Updated: 2018/03/02 18:06:34 by ssong            ###   ########.fr       */
+/*   Updated: 2018/03/02 18:12:55 by ssong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
-#include <stdio.h>
 #include <stdlib.h>
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
+
+void	ft_putchar(char c)
+{
+	write(1, &c, 1);
+}
+
+void	ft_putstr(char *str)
+{
+	while (*str)
+	{
+		ft_putchar(*str);
+		str++;
+	}
+}
 
 int	ft_strcmp(const char *s1, const char *s2)
 {
@@ -61,7 +74,8 @@ int main()
 	char test[6] = "ping";
 
 	recv(client_socket, &client_message, sizeof(client_message), 0);
-	printf("%s\n", client_message);
+	ft_putstr(client_message);
+	ft_putchar('\n');
 	if (ft_strcmp(client_message, test) == 0)
 	{
 		// send the message
