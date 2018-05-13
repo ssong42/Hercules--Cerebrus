@@ -6,7 +6,7 @@
 /*   By: ssong <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/12 10:10:00 by ssong             #+#    #+#             */
-/*   Updated: 2018/05/12 20:45:30 by ssong            ###   ########.fr       */
+/*   Updated: 2018/05/12 22:43:43 by ssong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ t_parse		*parse_message(t_client *client, t_parse *http_info)
 	http_info->method = buffer[0];
 	http_info->url = buffer[1];
 	http_info->version = buffer[2];
-	sprintf(http_info->finale, "GET %s HTTP/1.0\r\n\r\n", http_info->url);
+	sprintf(http_info->finale, "GET / HTTP/1.0\r\n\r\n");
 	return (http_info);
 }
 
