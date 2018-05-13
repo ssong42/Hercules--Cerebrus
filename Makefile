@@ -6,12 +6,12 @@
 #    By: ssong <marvin@42.fr>                       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/03 10:33:59 by ssong             #+#    #+#              #
-#    Updated: 2018/05/12 13:37:56 by ssong            ###   ########.fr        #
+#    Updated: 2018/05/12 21:17:19 by ssong            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 all:
-	gcc -Wall -Werror -Wextra proxy.c libft.a -o proxy
+	gcc -Wall -Werror -Wextra proxy.c tools.c libft.a -I. -o proxy
 
 clean:
 	rm -f proxy

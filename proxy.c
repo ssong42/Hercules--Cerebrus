@@ -43,7 +43,7 @@ t_parse		*parse_message(t_client *client, t_parse *http_info)
 	http_info->method = buffer[0];
 	http_info->url = buffer[1];
 	http_info->version = buffer[2];
-	sprintf(http_info->final, "GET %s HTTP/1.0\r\n\r\n", http_info->url);
+	sprintf(http_info->finale, "GET %s HTTP/1.0\r\n\r\n", http_info->url);
 	return (http_info);
 }
 
@@ -65,21 +65,21 @@ t_host		*initialize_host(t_host *host, t_parse *info)
 	host = malloc(sizeof(t_host));
 	info->url = ft_strchr(info->url, '/') + 2;
 	printf("%s\n", info->url);
-	if (!(info->IP = gethostbyname(info->url)))
+	if (!(info->ip = gethostbyname(info->url)))
 		error("no such host");
 	host->network_socket = socket(AF_INET, SOCK_STREAM, 0);
 	host->server_address.sin_family = AF_INET;
 	host->server_address.sin_port = htons(80);
 	ft_memcpy(&host->server_address.sin_addr.
-		s_addr, info->IP->h_addr, info->IP->h_length);
+		s_addr, info->ip->h_addr, info->ip->h_length);
 	host->connect_status = connect(host->network_socket, (struct sockaddr*)&
 		host->server_address, sizeof(struct sockaddr));
 	if (host->connect_status == -1)
 		error("error connecting to host\n");
 	printf("Connected to %s\n", info->url);
-	printf("%s\n", info->final);
-	send(host->network_socket, info->final,
-		ft_strlen(info->final), 0);
+	printf("%s\n", info->finale);
+	send(host->network_socket, info->finale,
+		ft_strlen(info->finale), 0);
 	recv(host->network_socket, &host->server_response,
 		sizeof(host->server_response), 0);
 	return (host);
