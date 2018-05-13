@@ -28,14 +28,14 @@ t_client	*initialize_socket(t_client *listen, int port)
 	return (listen);
 }
 
-
-t_parse	*parse_message(t_client *client, t_parse *http_info)
+t_parse		*parse_message(t_client *client, t_parse *http_info)
 {
-	char 	**buffer;
+	char	**buffer;
 
 	if (ft_countwords(client->client_message, ' ') != 3)
 	{
-		send(client->client_socket,"incorrect number of arguments\n", 30, 0);
+		send(client->client_socket,
+			"incorrect number of arguments\n", 30, 0);
 		return (http_info);
 	}
 	http_info = malloc(sizeof(t_parse));
@@ -53,40 +53,44 @@ t_parse		*read_send(t_client *client, t_parse *http_info)
 	client->client_socket = accept(client->server_socket, NULL, NULL);
 	while (error_check(http_info))
 	{
-		recv(client->client_socket, &client->client_message, sizeof(client->client_message), 0);
+		recv(client->client_socket,
+			&client->client_message, sizeof(client->client_message), 0);
 		http_info = parse_message(client, http_info);
 	}
 	return (http_info);
 }
 
-t_host			*initialize_host(t_host *host, t_parse *info)
+t_host		*initialize_host(t_host *host, t_parse *info)
 {
 	host = malloc(sizeof(t_host));
-	info->url = ft_strchr(info->url, '/') + 2; 
+	info->url = ft_strchr(info->url, '/') + 2;
 	printf("%s\n", info->url);
 	if (!(info->IP = gethostbyname(info->url)))
-		error ("no such host");
+		error("no such host");
 	host->network_socket = socket(AF_INET, SOCK_STREAM, 0);
 	host->server_address.sin_family = AF_INET;
 	host->server_address.sin_port = htons(80);
-	ft_memcpy(&host->server_address.sin_addr.s_addr,info->IP->h_addr,info->IP->h_length);
+	ft_memcpy(&host->server_address.sin_addr.
+		s_addr, info->IP->h_addr, info->IP->h_length);
 	host->connect_status = connect(host->network_socket, (struct sockaddr*)&
 		host->server_address, sizeof(struct sockaddr));
 	if (host->connect_status == -1)
 		error("error connecting to host\n");
 	printf("Connected to %s\n", info->url);
 	printf("%s\n", info->final);
-	send(host->network_socket, info->final, ft_strlen(info->final), 0);
-	recv(host->network_socket, &host->server_response, sizeof(host->server_response), 0);
+	send(host->network_socket, info->final,
+		ft_strlen(info->final), 0);
+	recv(host->network_socket, &host->server_response,
+		sizeof(host->server_response), 0);
 	return (host);
 }
 
-int					main(int argc, char **argv)
+int			main(int argc, char **argv)
 {
 	t_client		*socket;
 	t_host			*host;
 	t_parse			*http_info;
-	int			port;
+	int				port;
 
 	if (argc != 2)
 		error("usage: ./proxy <port>\n");

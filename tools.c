@@ -12,13 +12,13 @@
 
 #include "proxy.h"
 
-void	error(char *msg);
+void	error(char *msg)
 {
 	perror(msg);
 	exit(0);
 }
 
-int	error_check(t_parse *http_info)
+int		error_check(t_parse *http_info)
 {
 	if (http_info == NULL)
 		return (1);
@@ -31,7 +31,7 @@ int	error_check(t_parse *http_info)
 	return (0);
 }
 
-int	str_digit(char *str)
+int		str_digit(char *str)
 {
 	while (*str)
 	{
